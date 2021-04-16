@@ -1,15 +1,9 @@
-#Version 0.2
-ARG server_env
-ARG base_image_version
-# 基础镜像
-# FROM csighub.tencentyun.com/tbaas_${server_env}/node-baseimage:${base_image_version}
-FROM ccr.ccs.tencentyun.com/tbaas.private/node-baseimage:1.0
-# 维护者信息
-ARG pipeline_start_user_name
-MAINTAINER $pipeline_start_user_name}
-
-ARG working_space=/data/workspace
-WORKDIR ${working_space}
-
-ARG target_project
-ADD ${target_project}.tar.gz ./
+#基于的基础镜像
+FROM python:3.8.2
+#代码添加到code文件夹
+ADD . /code
+# 设置code文件夹是工作目录
+WORKDIR /code
+# 安装支持
+RUN pip install -r requirements.txt
+CMD ["python", "./web/flaskweb.py"]
